@@ -6,7 +6,7 @@ from google_auth_oauthlib.flow import Flow
 from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
 from src.api.youtube_api import YouTubeAPI  # Updated import for class-based YouTubeAPI
-from cleaning import process_data, apply_nlp, extract_features, clean_video_data, load_data, plot_top_keywords, plot_sentiment_distribution, plot_topic_distribution
+from src.data.cleaning import DataCleaner
 from tf_idf import visualize_tfidf_keywords, visualize_video_description_keywords, apply_tfidf, clean_data
 from flask import Flask, render_template, send_from_directory, redirect, request, session, url_for
 from bert import analyze_bert, plot_keywords
@@ -61,18 +61,18 @@ def analyze():
     channel_data = yt_api.get_channel_details(channel_id)
     if "error" in channel_data:
         return f"Error: {channel_data['error']}"
-    
+    cleaner = DataCleaner(channel_id)
     # Process and clean the data
-    channel_df, comments_df, videos_df = process_data(channel_data)
-    videos_df = clean_video_data(videos_df)
-    videos_df, comments_df = apply_nlp(videos_df, comments_df)
+    channel_df, comments_df, videos_df = cleaner.process_data(channel_data)
+    videos_df = cleaner.clean_video_data(videos_df)
+    videos_df, comments_df = cleaner.apply_nlp(videos_df, comments_df)
     videos_df, comments_df = clean_data(videos_df, comments_df)
 
     # Apply TF-IDF and extract features
     tfidf_df, feature_names, tfidf_matrix = apply_tfidf(videos_df, comments_df)
     top_words, top_scores = visualize_tfidf_keywords(tfidf_df, feature_names, 'static/tfidf_keywords_descriptions.png')
     top_word_scores = list(zip(top_words, top_scores))
-    combined_df, updated_channel_df = extract_features(channel_df, videos_df, comments_df)
+    combined_df, updated_channel_df = cleaner.extract_features(channel_df, videos_df, comments_df)
 
     average_sentiment = updated_channel_df['average_sentiment'].iloc[0]
 
@@ -86,8 +86,8 @@ def analyze():
     # Visualize and save results
     plot_keywords(video_keywords, video_keyword_scores, "Top Keywords in Video Descriptions (BERT)", "static/bert_keywords_descriptions.png")
     plot_keywords(comment_keywords, comment_keyword_scores, "Top Keywords in Comments (BERT)", "static/bert_keywords_comments.png")
-    plot_sentiment_distribution(comments_df)
-    plot_topic_distribution(videos_df)
+    cleaner.plot_sentiment_distribution(comments_df)
+    cleaner.plot_topic_distribution(videos_df)
     visualize_tfidf_keywords(tfidf_df, feature_names, 'static/tfidf_keywords_descriptions.png')
     visualize_video_description_keywords(videos_df, feature_names, tfidf_matrix, 'static/tfidf_keywords_comments.png')
 
