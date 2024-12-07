@@ -17,7 +17,7 @@ from src.api.youtube_api_2 import YouTubeAPIProcessor
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
-CLIENT_SECRETS_FILE = "client_secret_986605252946-ihc6sj61e8o858cqcm2fpu585igddmdf.apps.googleusercontent.com (1).json"
+CLIENT_SECRETS_FILE = os.getenv("CLIENT_SECRETS_FILE", "client_secret_986605252946-ihc6sj61e8o858cqcm2fpu585igddmdf.apps.googleusercontent.com (1).json")
 API_NAME = 'youtube'
 API_VERSION = 'v3'
 SCOPES = ['https://www.googleapis.com/auth/youtube.readonly', 'https://www.googleapis.com/auth/youtube.force-ssl']
