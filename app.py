@@ -10,8 +10,8 @@ from src.data.cleaning import DataCleaner
 from src.nlp.tf_idf import TFIDFProcessor
 from flask import Flask, render_template, send_from_directory, redirect, request, session, url_for
 from src.nlp.bert import BERTProcessor
+from src.model.topic_modeling import TopicModelingProcessor
 import matplotlib.pyplot as plt
-from topic_modeling import process_and_visualize, generate_summary
 from youtube_api_2 import search_channels_by_keywords
 
 app = Flask(__name__)
@@ -66,6 +66,9 @@ def analyze():
     tfidf_processor = TFIDFProcessor()
 
     bert_processor = BERTProcessor(static_dir="static/")
+
+    topic_modeling_processor = TopicModelingProcessor(model_dir="channel_analysis_models/", static_dir="static/")
+
     # Process and clean the data
     channel_df, comments_df, videos_df = cleaner.process_data(channel_data)
     videos_df = cleaner.clean_video_data(videos_df)
@@ -91,8 +94,7 @@ def analyze():
     tfidf_processor.visualize_video_description_keywords(videos_df, feature_names, tfidf_matrix)
 
     # Process and visualize topics using the topic_modeling.py functions
-    summary, video_title_img, video_description_img, comment_img, videos_df, comments_df = process_and_visualize(videos_df, comments_df)
-    dominant_topics = generate_summary(videos_df, comments_df)
+    summary, video_title_img, video_description_img, comment_img, dominant_topics = topic_modeling_processor.process_and_visualize(videos_df, comments_df)
 
     # Render the dashboard with results
     return render_template(
