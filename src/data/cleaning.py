@@ -67,12 +67,13 @@ class DataCleaner:
 
     def plot_topic_distribution(self, videos_df):
         plt.figure(figsize=(8, 6))
-        sns.countplot(x='dominant_topic', data=videos_df, palette='Set2')
+        sns.countplot(x='dominant_topic', hue='dominant_topic', data=videos_df, palette='Set2', legend=False)  # Fixed warning
         plt.title('Topic Distribution in Video Descriptions')
         plt.xlabel('Dominant Topic')
         plt.ylabel('Frequency')
         plt.savefig('static/topic_distribution.png')
         plt.close()
+
 
     def extract_features(self, channel_df, videos_df, comments_df):
         comment_sentiment_avg = comments_df.groupby('videoId')['sentiment'].mean().reset_index()

@@ -1,0 +1,107 @@
+# YouTube Channel Analysis Dashboard
+
+## Overview
+A Flask-based web application that leverages the YouTube Data API to analyze YouTube channels. This project allows users to:
+- Analyze channel metrics like subscriber count, video count, and overall engagement.
+- Extract insights from top-performing videos and their comments.
+- Perform NLP-based keyword extraction and sentiment analysis using TF-IDF and BERT.
+- Visualize engagement statistics, sentiment distributions, and keyword importance.
+- Recommend similar channels for collaboration based on keywords and topics.
+
+---
+
+## Features
+- **YouTube API Integration**: Fetch detailed metrics, videos, and comments for a given channel.
+- **Data Cleaning**: The `DataCleaner` class, located in `src/data/cleaning.py`, handles:
+  - Loading raw data from `.json` files.
+  - Cleaning and preprocessing video and comment data.
+  - Applying Natural Language Processing (NLP) techniques like sentiment analysis and topic modeling.
+  - Extracting features like engagement rates and sentiment scores.
+- **NLP Analytics**:
+  - **TF-IDF**: The TFIDFProcessor class, located in src/nlp/tf_idf.py, extracts keywords from video descriptions and comments. Results are visualized in the static/ directory.
+  - **BERT**:  The BERTProcessor class, located in src/nlp/bert.py, performs advanced keyword extraction and contextual analysis. Visualization results are saved in static/.
+  - **Topic Modeling**: Identify dominant topics in video content.
+- **Visualizations**:
+  - Engagement statistics (views, likes, comments).
+  - Sentiment analysis distribution.
+  - Topic and keyword importance.
+- **Collaboration Recommendations**: Suggest channels for partnerships based on shared topics.
+
+---
+
+## Installation
+
+1. **Clone this repository**:
+   ```bash
+   git clone https://github.com/your-repo-name.git
+   cd your-repo-name
+   ```
+
+2. **Set up a virtual environment**:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate   # For Linux/Mac
+   venv\Scripts\activate    # For Windows
+   ```
+
+3. **Install dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Add YouTube API credentials**:
+   - Download your `client_secret.json` file from the [Google Cloud Console](https://console.cloud.google.com/).
+   - Place the `client_secret.json` file in the project root directory.
+
+5. **Run the application**:
+   ```bash
+   flask run
+   ```
+
+---
+
+## Usage
+1. Visit `https://127.0.0.1:5000/` in your browser.
+2. Log in using your Google account to authorize the app.
+3. Enter a YouTube channel ID to analyze its data.
+4. View the dashboard with:
+   - Channel insights and metrics.
+   - Visualizations for engagement, keywords, and sentiment.
+   - Collaboration recommendations.
+
+---
+
+## Project Structure
+```plaintext
+marketing_project/
+├── src/
+│   ├── api/
+│   │   └── youtube_api.py  # Handles YouTube API integration
+│   ├── nlp/
+│   │   ├── bert.py         # BERT-based keyword extraction
+│   │   ├── tf_idf.py       # TF-IDF analysis
+│   ├── data/
+│   │   ├── cleaning.py     # Data preprocessing and cleaning
+│   ├── visualization/
+│   │   ├── plots.py        # Functions to generate plots
+├── templates/              # HTML templates for Flask
+├── static/                 # Static files (CSS, images, etc.)
+├── app.py                  # Main Flask application
+├── requirements.txt        # Python dependencies
+├── README.md               # Project documentation
+```
+
+---
+
+## Roadmap
+- **OOP Refactoring**: Transition all modules to object-oriented programming.
+- **Unit Testing**: Add comprehensive unit tests using `pytest`.
+- **Enhanced Visualizations**: Improve dashboard interactivity.
+- **Containerization**: Create a `Dockerfile` for easy deployment.
+- **Deployment**: Deploy the app on Heroku, AWS, or similar platforms.
+
+---
+
+## License
+This project is licensed under the MIT License.
+

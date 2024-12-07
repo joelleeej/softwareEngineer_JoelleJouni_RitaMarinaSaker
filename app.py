@@ -69,6 +69,7 @@ def analyze():
 
     topic_modeling_processor = TopicModelingProcessor(model_dir="channel_analysis_models/", static_dir="static/")
 
+
     # Process and clean the data
     channel_df, comments_df, videos_df = cleaner.process_data(channel_data)
     videos_df = cleaner.clean_video_data(videos_df)
@@ -95,7 +96,7 @@ def analyze():
 
     # Process and visualize topics using the topic_modeling.py functions
     summary, video_title_img, video_description_img, comment_img, dominant_topics = topic_modeling_processor.process_and_visualize(videos_df, comments_df)
-
+    
     # Render the dashboard with results
     return render_template(
         'dashboard.html',
