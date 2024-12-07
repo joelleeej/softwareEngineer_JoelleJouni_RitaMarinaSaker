@@ -11,21 +11,22 @@ A Flask-based web application that leverages the YouTube Data API to analyze You
 ---
 
 ## Features
-- **YouTube API Integration**: Fetch detailed metrics, videos, and comments for a given channel.
+- **YouTube API Integration**: The `YouTubeAPI` class, located in `src/api/youtube_api.py`, fetches detailed metrics, videos, and comments for a given channel.
 - **Data Cleaning**: The `DataCleaner` class, located in `src/data/cleaning.py`, handles:
   - Loading raw data from `.json` files.
   - Cleaning and preprocessing video and comment data.
   - Applying Natural Language Processing (NLP) techniques like sentiment analysis and topic modeling.
   - Extracting features like engagement rates and sentiment scores.
 - **NLP Analytics**:
-  - **TF-IDF**: The TFIDFProcessor class, located in src/nlp/tf_idf.py, extracts keywords from video descriptions and comments. Results are visualized in the static/ directory.
-  - **BERT**:  The BERTProcessor class, located in src/nlp/bert.py, performs advanced keyword extraction and contextual analysis. Visualization results are saved in static/.
-  - **Topic Modeling**: Identify dominant topics in video content.
+  - **TF-IDF**: The `TFIDFProcessor` class, located in `src/nlp/tf_idf.py`, extracts keywords from video descriptions and comments. Results are visualized in the static/ directory.
+  - **BERT**:  The `BERTProcessor` class, located in `src/nlp/bert.py`, performs advanced keyword extraction and contextual analysis. Visualization results are saved in static/.
+  - **Topic Modeling**: -the `TopicModelingProcessor` class, located in `src/model/topic_modeling.py`, identifies dominant topics in video content.
 - **Visualizations**:
-  - Engagement statistics (views, likes, comments).
-  - Sentiment analysis distribution.
-  - Topic and keyword importance.
-- **Collaboration Recommendations**: Suggest channels for partnerships based on shared topics.
+  - The `VisualizationProcessor` class, located in `src/visualization/visualization_channel.py`, generates:
+  - **Engagement Rate Chart**: Bar plot of engagement rate per video.
+  - **Video and Comment Sentiment Distribution**: Histograms for sentiment analysis.
+  - **Topic Distribution**: Bar plot for average topic distribution.
+- **Collaboration Recommendations**: - The `YouTubeAPIProcessor` class, located in `src/api/youtube_api_2.py`, recommends similar channels based on top keywords and topics.
 
 ---
 
@@ -74,21 +75,32 @@ A Flask-based web application that leverages the YouTube Data API to analyze You
 ## Project Structure
 ```plaintext
 marketing_project/
-├── src/
+│
+├── app.py                       # Main Flask application
+├── README.md                    # Project documentation
+├── requirements.txt             # Python dependencies
+├── static/                      # Directory for generated visualizations
+│   ├── engagement_statistics.png
+│   ├── topic_distribution.png
+│   ├── video_sentiment_distribution.png
+│   ├── comments_sentiment_distribution.png
+│   └── ...
+├── templates/                   # HTML templates
+│   ├── dashboard.html
+│   └── ...
+├── src/                         # Source code
 │   ├── api/
-│   │   └── youtube_api.py  # Handles YouTube API integration
-│   ├── nlp/
-│   │   ├── bert.py         # BERT-based keyword extraction
-│   │   ├── tf_idf.py       # TF-IDF analysis
+│   │   └── youtube_api_2.py     # YouTube API functions
 │   ├── data/
-│   │   ├── cleaning.py     # Data preprocessing and cleaning
+│   │   └── cleaning.py          # Data cleaning functions
+│   ├── nlp/
+│   │   ├── bert.py              # BERT-based NLP
+│   │   └── tf_idf.py            # TF-IDF-based NLP
 │   ├── visualization/
-│   │   ├── plots.py        # Functions to generate plots
-├── templates/              # HTML templates for Flask
-├── static/                 # Static files (CSS, images, etc.)
-├── app.py                  # Main Flask application
-├── requirements.txt        # Python dependencies
-├── README.md               # Project documentation
+│   │   └── visualization_channel.py  # Visualization functions
+│   └── model/topic_modeling.py               # (Optional future directory for ML models)
+├── datasets/                    # (Optional directory for storing datasets)
+└── ...
 ```
 
 ---
