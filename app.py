@@ -7,7 +7,7 @@ from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
 from src.api.youtube_api import YouTubeAPI  # Updated import for class-based YouTubeAPI
 from src.data.cleaning import DataCleaner
-from tf_idf import visualize_tfidf_keywords, visualize_video_description_keywords, apply_tfidf, clean_data
+from src.nlp.tf_idf import TFIDFProcessor
 from flask import Flask, render_template, send_from_directory, redirect, request, session, url_for
 from bert import analyze_bert, plot_keywords
 import matplotlib.pyplot as plt
@@ -62,15 +62,17 @@ def analyze():
     if "error" in channel_data:
         return f"Error: {channel_data['error']}"
     cleaner = DataCleaner(channel_id)
+
+    tfidf_processor = TFIDFProcessor()
     # Process and clean the data
     channel_df, comments_df, videos_df = cleaner.process_data(channel_data)
     videos_df = cleaner.clean_video_data(videos_df)
     videos_df, comments_df = cleaner.apply_nlp(videos_df, comments_df)
-    videos_df, comments_df = clean_data(videos_df, comments_df)
+    videos_df, comments_df = tfidf_processor.clean_data(videos_df, comments_df)
 
     # Apply TF-IDF and extract features
-    tfidf_df, feature_names, tfidf_matrix = apply_tfidf(videos_df, comments_df)
-    top_words, top_scores = visualize_tfidf_keywords(tfidf_df, feature_names, 'static/tfidf_keywords_descriptions.png')
+    tfidf_df, feature_names, tfidf_matrix = tfidf_processor.apply_tfidf(videos_df, comments_df)
+    top_words, top_scores = tfidf_processor.visualize_tfidf_keywords(tfidf_df)
     top_word_scores = list(zip(top_words, top_scores))
     combined_df, updated_channel_df = cleaner.extract_features(channel_df, videos_df, comments_df)
 
@@ -88,8 +90,8 @@ def analyze():
     plot_keywords(comment_keywords, comment_keyword_scores, "Top Keywords in Comments (BERT)", "static/bert_keywords_comments.png")
     cleaner.plot_sentiment_distribution(comments_df)
     cleaner.plot_topic_distribution(videos_df)
-    visualize_tfidf_keywords(tfidf_df, feature_names, 'static/tfidf_keywords_descriptions.png')
-    visualize_video_description_keywords(videos_df, feature_names, tfidf_matrix, 'static/tfidf_keywords_comments.png')
+    tfidf_processor.visualize_tfidf_keywords(tfidf_df)
+    tfidf_processor.visualize_video_description_keywords(videos_df, feature_names, tfidf_matrix)
 
     # Process and visualize topics using the topic_modeling.py functions
     summary, video_title_img, video_description_img, comment_img, videos_df, comments_df = process_and_visualize(videos_df, comments_df)
