@@ -9,7 +9,7 @@ from src.api.youtube_api import YouTubeAPI  # Updated import for class-based You
 from src.data.cleaning import DataCleaner
 from src.nlp.tf_idf import TFIDFProcessor
 from flask import Flask, render_template, send_from_directory, redirect, request, session, url_for
-from bert import analyze_bert, plot_keywords
+from src.nlp.bert import BERTProcessor
 import matplotlib.pyplot as plt
 from topic_modeling import process_and_visualize, generate_summary
 from youtube_api_2 import search_channels_by_keywords
@@ -64,6 +64,8 @@ def analyze():
     cleaner = DataCleaner(channel_id)
 
     tfidf_processor = TFIDFProcessor()
+
+    bert_processor = BERTProcessor(static_dir="static/")
     # Process and clean the data
     channel_df, comments_df, videos_df = cleaner.process_data(channel_data)
     videos_df = cleaner.clean_video_data(videos_df)
@@ -79,15 +81,10 @@ def analyze():
     average_sentiment = updated_channel_df['average_sentiment'].iloc[0]
 
     # Apply BERT-based keyword extraction
-    top_video_indices, video_keyword_scores, top_comment_indices, comment_keyword_scores = analyze_bert(videos_df, comments_df)
-
-    # Prepare data for plotting
-    video_keywords = [videos_df['Cleaned_Description'].iloc[i] for i in top_video_indices]
-    comment_keywords = [comments_df['Cleaned_Comment'].iloc[i] for i in top_comment_indices]
+    bert_processor.analyze(videos_df, comments_df)
 
     # Visualize and save results
-    plot_keywords(video_keywords, video_keyword_scores, "Top Keywords in Video Descriptions (BERT)", "static/bert_keywords_descriptions.png")
-    plot_keywords(comment_keywords, comment_keyword_scores, "Top Keywords in Comments (BERT)", "static/bert_keywords_comments.png")
+    
     cleaner.plot_sentiment_distribution(comments_df)
     cleaner.plot_topic_distribution(videos_df)
     tfidf_processor.visualize_tfidf_keywords(tfidf_df)
