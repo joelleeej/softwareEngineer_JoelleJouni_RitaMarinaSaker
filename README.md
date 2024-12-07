@@ -56,7 +56,7 @@ A Flask-based web application that leverages the YouTube Data API to analyze You
 
 5. **Run the application**:
    ```bash
-   flask run
+   python app.py
    ```
 
 ---
