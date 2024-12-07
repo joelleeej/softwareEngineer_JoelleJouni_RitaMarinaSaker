@@ -5,13 +5,13 @@ from sqlite3 import DataError
 from google_auth_oauthlib.flow import Flow
 from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
-from youtube_api import get_channel_details  # Updated import based on new youtube_api.py
-from cleaning import process_data, apply_nlp, extract_features, clean_video_data, load_data, plot_top_keywords,plot_sentiment_distribution, plot_topic_distribution  # Retained plot_top_keywords import
-from tf_idf import visualize_tfidf_keywords, visualize_video_description_keywords, apply_tfidf, clean_data  # Added imports for TF-IDF functions
+from src.api.youtube_api import YouTubeAPI  # Updated import for class-based YouTubeAPI
+from cleaning import process_data, apply_nlp, extract_features, clean_video_data, load_data, plot_top_keywords, plot_sentiment_distribution, plot_topic_distribution
+from tf_idf import visualize_tfidf_keywords, visualize_video_description_keywords, apply_tfidf, clean_data
 from flask import Flask, render_template, send_from_directory, redirect, request, session, url_for
 from bert import analyze_bert, plot_keywords
 import matplotlib.pyplot as plt
-from topic_modeling import process_and_visualize, generate_summary  # Import process_and_visualize from topic_modeling.py
+from topic_modeling import process_and_visualize, generate_summary
 from youtube_api_2 import search_channels_by_keywords
 
 app = Flask(__name__)
@@ -55,11 +55,13 @@ def analyze():
         return redirect(url_for('authorize'))
 
     credentials = Credentials.from_authorized_user_info(session['credentials'])
-    youtube = build(API_NAME, API_VERSION, credentials=credentials)
+    yt_api = YouTubeAPI(credentials)  # Instantiate YouTubeAPI
 
     # Fetch channel data
-    channel_data = get_channel_details(youtube, channel_id)
-
+    channel_data = yt_api.get_channel_details(channel_id)
+    if "error" in channel_data:
+        return f"Error: {channel_data['error']}"
+    
     # Process and clean the data
     channel_df, comments_df, videos_df = process_data(channel_data)
     videos_df = clean_video_data(videos_df)
@@ -70,9 +72,10 @@ def analyze():
     tfidf_df, feature_names, tfidf_matrix = apply_tfidf(videos_df, comments_df)
     top_words, top_scores = visualize_tfidf_keywords(tfidf_df, feature_names, 'static/tfidf_keywords_descriptions.png')
     top_word_scores = list(zip(top_words, top_scores))
-    combined_df,updated_channel_df = extract_features(channel_df, videos_df, comments_df)
-    
+    combined_df, updated_channel_df = extract_features(channel_df, videos_df, comments_df)
+
     average_sentiment = updated_channel_df['average_sentiment'].iloc[0]
+
     # Apply BERT-based keyword extraction
     top_video_indices, video_keyword_scores, top_comment_indices, comment_keyword_scores = analyze_bert(videos_df, comments_df)
 
@@ -83,14 +86,14 @@ def analyze():
     # Visualize and save results
     plot_keywords(video_keywords, video_keyword_scores, "Top Keywords in Video Descriptions (BERT)", "static/bert_keywords_descriptions.png")
     plot_keywords(comment_keywords, comment_keyword_scores, "Top Keywords in Comments (BERT)", "static/bert_keywords_comments.png")
-    plot_sentiment_distribution(comments_df)  # Sentiment plot saved as 'sentiment_distribution.png'
-    plot_topic_distribution(videos_df)  # Topic plot saved as 'topic_distribution.png'
+    plot_sentiment_distribution(comments_df)
+    plot_topic_distribution(videos_df)
     visualize_tfidf_keywords(tfidf_df, feature_names, 'static/tfidf_keywords_descriptions.png')
     visualize_video_description_keywords(videos_df, feature_names, tfidf_matrix, 'static/tfidf_keywords_comments.png')
 
     # Process and visualize topics using the topic_modeling.py functions
     summary, video_title_img, video_description_img, comment_img, videos_df, comments_df = process_and_visualize(videos_df, comments_df)
-    dominant_topics=generate_summary(videos_df, comments_df)
+    dominant_topics = generate_summary(videos_df, comments_df)
 
     # Render the dashboard with results
     return render_template(
@@ -106,9 +109,9 @@ def analyze():
         comment_img=comment_img,
         average_sentiment=average_sentiment,
         top_word_scores=top_word_scores,
-        dominant_topics=dominant_topics 
+        dominant_topics=dominant_topics
     )
-    
+
 @app.route('/search_results', methods=['POST'])
 def search_results():
     if 'credentials' not in session:
@@ -121,7 +124,7 @@ def search_results():
     extracted_data = search_channels_by_keywords(youtube, keywords)
 
     return render_template(
-        'search_results.html',  # New template for search results
+        'search_results.html',
         extracted_data=extracted_data
     )
 
@@ -141,6 +144,7 @@ def credentials_to_dict(credentials):
 
 if __name__ == '__main__':
     app.run(debug=True, host='127.0.0.1', port=5000, ssl_context=('certs/certificate.crt', 'certs/private.key'))
+
 
 
 
