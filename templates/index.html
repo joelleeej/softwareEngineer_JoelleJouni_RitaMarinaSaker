@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Channel Analyzer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        /* Set the background image and blur it */
+        body {
+            background-color: #001f3d;
+            background-size: cover;
+            height: 100vh;
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+            margin: 0;
+        }
+
+        /* Dark overlay to make the content pop */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);  /* Add a dark overlay */
+            z-index: 1;
+        }
+
+        /* YouTube Channel Analysis Box Styling */
+        .container {
+            background-color: #001f3d; /* Dark Blue */
+            color: white;
+            padding: 30px;
+            margin-top: 50px;
+            border-radius: 10px;
+            position: absolute;
+            top: 5%;
+            right: 50%;
+            width: 350px; /* Set width of the box */
+            z-index: 2; /* Ensure the content stays on top */
+        }
+
+        .container h1 {
+            color: white;
+        }
+
+        .container input, .container button {
+            border-radius: 5px;
+        }
+
+        .container button {
+            background-color: #001f3d;
+            color: #001f3d; /* Dark Blue */
+            font-weight: bold;
+        }
+
+        /* Styling the title and form fields */
+        .form-label, .form-control, .btn-primary {
+            color: white !important;
+        }
+
+        /* Style for the 'Analyze Channel' button on hover */
+        .btn-primary:hover {
+            background-color: #0056b3; /* Darker Blue */
+            color: white;
+        }
+
+        /* Adjust the text color and button in the form */
+        .form-control {
+            border-radius: 4px;
+            box-shadow: none;
+        }
+
+        /* Alert message for login requirement */
+        .alert {
+            font-size: 16px;
+            text-align: center;
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay"></div> <!-- Dark overlay to make the content pop -->
+
+    <div class="container">
+        <h1>YouTube Channel Analysis</h1>
+        
+        {% if session['credentials'] %}
+            <form action="{{ url_for('analyze') }}" method="POST">
+                <div class="mb-3">
+                    <label for="channel_id" class="form-label">Enter Channel ID:</label>
+                    <input type="text" id="channel_id" name="channel_id" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Analyze Channel</button>
+            </form>
+        {% else %}
+            <div class="alert alert-danger">
+                Please log in to analyze a channel.
+            </div>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,263 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Channel Analysis Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
+    <style>
+        body {
+            background-color: #001f3d;
+            color: white;
+            font-family: 'Arial', sans-serif;
+        }
+
+        h1, h3, h4, p, ul {
+            color: white;
+        }
+
+        table {
+            border: 1px solid white;
+        }
+
+        table th, table td {
+            border: 1px solid white;
+            color: white;
+        }
+
+        .container {
+            background-color: #001f3d;
+            padding: 30px;
+            margin-top: 50px;
+            border-radius: 10px;
+        }
+
+        .form-label {
+            color: white !important;
+        }
+        /* Style for input section */
+        .form-control {
+            background-color: white; /* White background for the input box */
+            color: black; /* Black text inside the input box */
+            border: 1px solid #003366; /* Dark blue border to match the theme */
+        }
+
+        .form-control:focus {
+            border-color: #004c8c; /* Lighter blue border when the input is focused */
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Focus box shadow */
+        }
+
+        .btn-primary {
+            background-color: #001f3d;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        .img-fluid {
+            margin-top: 20px;
+        }
+
+        .summary-container {
+            background-color: #002b4d;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+
+        .alert {
+            font-size: 16px;
+            text-align: center;
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4">YouTube Channel Analysis Dashboard</h1>
+
+        <!-- Channel Data Section -->
+        <h3>Channel Overview</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Channel Name</th>
+                    <th>Subscribers</th>
+                    <th>Video Count</th>
+                    <th>Views</th>
+                    <th>Average Sentiment</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for channel in channel_data %}
+                    <tr>
+                        <td>{{ channel['title'] }}</td>
+                        <td>{{ channel['subscriberCount'] }}</td>
+                        <td>{{ channel['videoCount'] }}</td>
+                        <td>{{ channel['viewCount'] }}</td>
+                        <td>{{ channel['average_sentiment'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Videos Data Section -->
+        <h3>Top Videos</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Video Title</th>
+                    <th>View Count</th>
+                    <th>Like Count</th>
+                    <th>Comment Count</th>
+                    <th>Engagement Rate</th>
+                    <th>Sentiment</th>
+                    <th>Dominant Topic</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for video in videos_data %}
+                    <tr>
+                        <td>{{ video['title'] }}</td>
+                        <td>{{ video['viewCount'] }}</td>
+                        <td>{{ video['likeCount'] }}</td>
+                        <td>{{ video['commentCount'] }}</td>
+                        <td>{{ video['engagement_rate'] }}</td>
+                        <td>{{ video['sentiment'] }}</td>
+                        <td>{{ video['dominant_topic'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Comments Data Section -->
+        <h3>Recent Comments</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Video ID</th>
+                    <th>Comment</th>
+                    <th>Sentiment</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for comment in comments_data %}
+                    <tr>
+                        <td>{{ comment['videoId'] }}</td>
+                        <td>{{ comment['Comment'] }}</td>
+                        <td>{{ comment['sentiment'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Visualization Section -->
+        <h3>Visualizations</h3>
+        <h4>Sentiment Analysis for Videos</h4>
+        <img src="{{ url_for('static', filename='sentiment_distribution.png') }}" alt="Sentiment Plot" class="img-fluid">
+        <p>Average Sentiment Score: {{ average_sentiment }}</p>
+
+        <img src="{{ url_for('static', filename='video_title_img.png') }}" alt="Video Title Topics">
+        <img src="{{ url_for('static', filename='video_description_img.png') }}" alt="Video Description Topics">
+        <img src="{{ url_for('static', filename='comment_img.png') }}" alt="Comment Topics">
+
+        <div class="summary-container">
+            <h3>Analysis Summary</h3>
+            <p>{{ summary }}</p>
+        </div>
+
+        <p>Dominant Topic: {{ dominant_topics }}</p>
+
+        <!-- Top Keywords in Video Descriptions -->
+        <h4>Top Keywords in Video Descriptions</h4>
+        <img src="{{ url_for('static', filename='keywords_descriptions.png') }}" alt="Top Keywords in Video Descriptions" class="img-fluid">
+
+        <!-- Top Keywords in Comments -->
+        <h4>Top Keywords in Comments</h4>
+        <img src="{{ url_for('static', filename='keywords_comments.png') }}" alt="Top Keywords in Comments" class="img-fluid">
+
+        <!-- TF-IDF Visualization for Comments -->
+        <h4>TF-IDF Analysis for Comments</h4>
+        <img src="{{ url_for('static', filename='tfidf_keywords_comments.png') }}" alt="TF-IDF Keywords" class="img-fluid">
+
+        <!-- TF-IDF Visualization for Video Descriptions -->
+        <h4>TF-IDF Analysis for Video Descriptions</h4>
+        <img src="{{ url_for('static', filename='tfidf_keywords_descriptions.png') }}" alt="TF-IDF Keywords in Descriptions" class="img-fluid">
+
+        <h3>Most Frequent Words:</h3>
+        <ul>
+           {% for word, score in top_word_scores %}
+               <li>{{ word }}: {{ '%.2f'|format(score) }}</li>
+            {% endfor %}
+        </ul>
+
+        <!-- BERT Keyword Analysis for Video Descriptions -->
+        <h4>BERT Keyword Analysis for Video Descriptions</h4>
+        <img src="{{ url_for('static', filename='bert_keywords_descriptions.png') }}" alt="BERT Keywords in Video Descriptions" class="img-fluid" style="max-width: 80%; height: auto; margin: 0 auto; display: block;">
+
+        <!-- BERT Keyword Analysis for Comments -->
+        <h4>BERT Keyword Analysis for Comments</h4>
+        <img src="{{ url_for('static', filename='bert_keywords_comments.png') }}" alt="BERT Keywords in Comments" class="img-fluid" style="max-width: 80%; height: auto; margin: 0 auto; display: block;">
+
+        <!-- Video Engagement Chart -->
+        <h4>Engagement Rate for Videos</h4>
+        <canvas id="engagementChart" width="400" height="200"></canvas>
+    </div>
+
+    <script>
+    // Chart for video engagement or sentiment analysis
+    const ctx = document.getElementById('engagementChart').getContext('2d');
+    const engagementChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ video_titles | tojson }},
+            datasets: [{
+                label: 'Engagement Rate',
+                data: {{ engagement_rates | tojson }},
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    </script>
+
+    <!-- Keyword Input Section -->
+    <h3>Find Relevant Channels Based on Keywords</h3>
+    <form method="POST" action="{{ url_for('search_results') }}">
+        <div class="mb-3">
+            <label for="keywordsInput" class="form-label">Enter Keywords:</label>
+            <input type="text" id="keywordsInput" name="keywords" class="form-control" placeholder="e.g., technology, review, tutorial">
+        </div>
+        <button type="submit" class="btn btn-primary">Search Channels</button>
+    </form>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Channel Analysis Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/css/bootstrap.min.css">
+
+    <style>
+        body {
+            background-color: #001f3d; /* Dark blue background */
+            color: white; /* White font color */
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: white; /* White color for header */
+            margin-top: 20px;
+        }
+        ul {
+            list-style-type: none; /* Remove default list styling */
+            padding-left: 0;
+        }
+        li {
+            background-color: #003366; /* Darker blue for list items */
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        li:hover {
+            background-color: #004c8c; /* Lighter blue on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Keyword Search Results</h1>
+
+        {% if extracted_data %}
+            <ul>
+                {% for item in extracted_data %}
+                    <li>
+                        {{ item['title'] }} - {{ item['description'] }} - Subscribers: {{ item['subscriberCount'] }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No results found.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
+
+
