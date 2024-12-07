@@ -12,7 +12,7 @@ from flask import Flask, render_template, send_from_directory, redirect, request
 from src.nlp.bert import BERTProcessor
 from src.model.topic_modeling import TopicModelingProcessor
 import matplotlib.pyplot as plt
-from youtube_api_2 import search_channels_by_keywords
+from src.api.youtube_api_2 import YouTubeAPIProcessor
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -122,8 +122,12 @@ def search_results():
     credentials = Credentials.from_authorized_user_info(session['credentials'])
     youtube = build(API_NAME, API_VERSION, credentials=credentials)
 
+    # Instantiate YouTubeAPIProcessor with the authenticated YouTube client
+    yt_processor = YouTubeAPIProcessor(youtube)
+
+    # Fetch relevant channels based on keywords from form input
     keywords = request.form.get('keywords').split()
-    extracted_data = search_channels_by_keywords(youtube, keywords)
+    extracted_data = yt_processor.search_channels_by_keywords(keywords)
 
     return render_template(
         'search_results.html',
