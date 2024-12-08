@@ -74,28 +74,27 @@ def analyze():
     credentials = Credentials.from_authorized_user_info(session["credentials"])
     yt_api = YouTubeAPI(credentials)  # Instantiate YouTubeAPI
 
-
     # Start an MLflow experiment
     mlflow.set_experiment("YouTube Channel Analysis")
     with mlflow.start_run():
-    # Fetch channel data
+        # Fetch channel data
         channel_data = yt_api.get_channel_details(channel_id)
         if "error" in channel_data:
             return f"Error: {channel_data['error']}"
-        
+
         cleaner = DataCleaner(channel_id)
         tfidf_processor = TFIDFProcessor()
         bert_processor = BERTProcessor(static_dir="static/")
         topic_modeling_processor = TopicModelingProcessor(
-          model_dir="channel_analysis_models/", static_dir="static/"
+            model_dir="channel_analysis_models/", static_dir="static/"
         )
 
-    # Process and clean the data
+        # Process and clean the data
         channel_df, comments_df, videos_df = cleaner.process_data(channel_data)
         videos_df = cleaner.clean_video_data(videos_df)
         videos_df, comments_df = cleaner.apply_nlp(videos_df, comments_df)
         videos_df, comments_df = tfidf_processor.clean_data(videos_df, comments_df)
-    
+
         mlflow.log_param("channel_id", channel_id)
         mlflow.log_metric("video_count", len(videos_df))
         mlflow.log_metric("comment_count", len(comments_df))
@@ -114,45 +113,52 @@ def analyze():
 
         average_sentiment = updated_channel_df["average_sentiment"].iloc[0]
 
-    # Apply BERT-based keyword extraction
+        # Apply BERT-based keyword extraction
         bert_processor.analyze(videos_df, comments_df)
 
-    # Visualize and save results
+        # Visualize and save results
 
         cleaner.plot_sentiment_distribution(comments_df)
         cleaner.plot_topic_distribution(videos_df)
         tfidf_processor.visualize_tfidf_keywords(tfidf_df)
         tfidf_processor.visualize_video_description_keywords(
-           videos_df, feature_names, tfidf_matrix
+            videos_df, feature_names, tfidf_matrix
         )
 
-    # Process and visualize topics using the topic_modeling.py functions
-        summary, video_title_img, video_description_img, comment_img, dominant_topics = (
-            topic_modeling_processor.process_and_visualize(videos_df, comments_df)
-        )
-        
+        # Process and visualize topics using the topic_modeling.py functions
+        (
+            summary,
+            video_title_img,
+            video_description_img,
+            comment_img,
+            dominant_topics,
+        ) = topic_modeling_processor.process_and_visualize(videos_df, comments_df)
+
         # Log artifacts
         mlflow.log_artifact(video_title_img)
         mlflow.log_artifact(video_description_img)
         mlflow.log_artifact(comment_img)
 
-    # Render the dashboard with results
+        # Render the dashboard with results
         return render_template(
             "dashboard.html",
-             summary=summary,
-             channel_data=updated_channel_df.to_dict(orient="records"),
-             videos_data=videos_df.to_dict(orient="records"),
-             comments_data=comments_df.to_dict(orient="records"),
-             video_titles=[video["title"] for video in videos_df.to_dict(orient="records")],
-             engagement_rates=[
-             video["engagement_rate"] for video in videos_df.to_dict(orient="records")
-             ],
-             video_title_img=video_title_img,
-             video_description_img=video_description_img,
-             comment_img=comment_img,
-             average_sentiment=average_sentiment,
-             top_word_scores=top_word_scores,
-             dominant_topics=dominant_topics,
+            summary=summary,
+            channel_data=updated_channel_df.to_dict(orient="records"),
+            videos_data=videos_df.to_dict(orient="records"),
+            comments_data=comments_df.to_dict(orient="records"),
+            video_titles=[
+                video["title"] for video in videos_df.to_dict(orient="records")
+            ],
+            engagement_rates=[
+                video["engagement_rate"]
+                for video in videos_df.to_dict(orient="records")
+            ],
+            video_title_img=video_title_img,
+            video_description_img=video_description_img,
+            comment_img=comment_img,
+            average_sentiment=average_sentiment,
+            top_word_scores=top_word_scores,
+            dominant_topics=dominant_topics,
         )
 
 

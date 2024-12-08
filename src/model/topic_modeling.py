@@ -7,7 +7,6 @@ import mlflow
 import mlflow.sklearn  # Import if you're logging sklearn models
 
 
-
 class TopicModelingProcessor:
     def __init__(self, model_dir="channel_analysis_models/", static_dir="static/"):
         self.model_dir = model_dir
@@ -98,29 +97,39 @@ class TopicModelingProcessor:
         return summary, dominant_topics
 
     def process_and_visualize(self, videos_df, comments_df):
-    # Preprocess data
+        # Preprocess data
         videos_df, comments_df = self.preprocess_data(videos_df, comments_df)
 
-    # Apply model predictions
+        # Apply model predictions
         videos_df, comments_df = self.apply_model_predictions(videos_df, comments_df)
 
-    # Visualize dominant topics
+        # Visualize dominant topics
         video_title_img = self.visualize_topics(
-             videos_df, "Cleaned_Title_Dominant_Topic", "Video Titles", "video_title_img"
+            videos_df, "Cleaned_Title_Dominant_Topic", "Video Titles", "video_title_img"
         )
         video_description_img = self.visualize_topics(
-             videos_df, "Cleaned_Description_Dominant_Topic", "Video Descriptions", "video_description_img"
+            videos_df,
+            "Cleaned_Description_Dominant_Topic",
+            "Video Descriptions",
+            "video_description_img",
         )
         comment_img = self.visualize_topics(
-             comments_df, "Comment_Dominant_Topic", "Comments", "comment_img"
+            comments_df, "Comment_Dominant_Topic", "Comments", "comment_img"
         )
 
-    # Generate summary
+        # Generate summary
         summary, dominant_topics = self.generate_summary(videos_df, comments_df)
 
-    # Log metrics to MLflow
-        mlflow.log_metric("video_title_topic", len(videos_df["Cleaned_Title_Dominant_Topic"]))
+        # Log metrics to MLflow
+        mlflow.log_metric(
+            "video_title_topic", len(videos_df["Cleaned_Title_Dominant_Topic"])
+        )
         mlflow.log_metric("comment_topic", len(comments_df["Comment_Dominant_Topic"]))
 
-        return summary, video_title_img, video_description_img, comment_img, dominant_topics
-
+        return (
+            summary,
+            video_title_img,
+            video_description_img,
+            comment_img,
+            dominant_topics,
+        )
