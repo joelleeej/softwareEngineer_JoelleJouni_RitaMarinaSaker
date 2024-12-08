@@ -34,8 +34,8 @@ A Flask-based web application that leverages the YouTube Data API to analyze You
 
 1. **Clone this repository**:
    ```bash
-   git clone https://github.com/your-repo-name.git
-   cd your-repo-name
+   git clone https://github.com/joelleeej/softwareEngineer_JoelleJouni_RitaMarinaSaker
+   cd softwareEngineer_JoelleJouni_RitaMarinaSaker
    ```
 
 2. **Set up a virtual environment**:
@@ -71,6 +71,18 @@ A Flask-based web application that leverages the YouTube Data API to analyze You
    - Collaboration recommendations.
 
 ---
+## Testing
+### Running Tests:
+To run unit tests for the implemented features:
+
+  ```pytest tests/
+  ```
+### Coverage Report:
+Generate and view code coverage:
+
+  ```pytest --cov=src --cov-report=html
+  ```
+Open ```htmlcov/index.html``` for detailed insights.
 
 ## Project Structure
 ```plaintext
@@ -104,8 +116,10 @@ marketing_project/
 ```
 
 ---
+## ScreenShots:
 
 ## Roadmap
+-  **Create Application**: Flask WebInterface, Ml/DL models, visualizations, dashboards.
 - **OOP Refactoring**: Transition all modules to object-oriented programming.
 - **Unit Testing**: Add comprehensive unit tests using `pytest`.
 - **Enhanced Visualizations**: Improve dashboard interactivity.
