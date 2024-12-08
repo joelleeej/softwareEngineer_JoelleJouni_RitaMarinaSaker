@@ -71,6 +71,17 @@ A Flask-based web application that leverages the YouTube Data API to analyze You
    - Collaboration recommendations.
 
 ---
+## Visualizations: 
+### TF-IDF Keywords for Descriptions:
+![TF-IDF Keywords Descriptions](static/tfidf_keywords_descriptions.png)
+
+### Engagement Statistics:
+![Engagement Statistics](static/engagement_statistics.png)
+
+### Sentiment Analysis on Comments
+![Comments Sentiment Distribution](static/comments_sentiment_distribution.png)
+
+---
 ## Testing
 ### Running Tests:
 To run unit tests for the implemented features:
@@ -83,6 +94,14 @@ Generate and view code coverage:
   ```pytest --cov=src --cov-report=html
   ```
 Open ```htmlcov/index.html``` for detailed insights.
+
+### Example 1: Running Tests
+![Visiting browser](static/1.png)
+
+### Example 2: Running Tests
+![Visiting browser](static/2.png)
+
+---
 
 ## Project Structure
 ```plaintext
@@ -116,7 +135,6 @@ marketing_project/
 ```
 
 ---
-## ScreenShots:
 
 ## Roadmap
 -  **Create Application**: Flask WebInterface, Ml/DL models, visualizations, dashboards.
