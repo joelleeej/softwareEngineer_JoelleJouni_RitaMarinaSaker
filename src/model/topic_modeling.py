@@ -3,6 +3,9 @@ import re
 import matplotlib.pyplot as plt
 import seaborn as sns
 import os
+import mlflow
+import mlflow.sklearn  # Import if you're logging sklearn models
+
 
 
 class TopicModelingProcessor:
@@ -95,39 +98,29 @@ class TopicModelingProcessor:
         return summary, dominant_topics
 
     def process_and_visualize(self, videos_df, comments_df):
-        # Preprocess data
+    # Preprocess data
         videos_df, comments_df = self.preprocess_data(videos_df, comments_df)
 
-        # Apply model predictions
+    # Apply model predictions
         videos_df, comments_df = self.apply_model_predictions(videos_df, comments_df)
 
-        # Visualize dominant topics for videos_df and comments_df with dynamic filenames
+    # Visualize dominant topics
         video_title_img = self.visualize_topics(
-            videos_df,
-            "Cleaned_Title_Dominant_Topic",
-            "Dominant Topics in Video Titles",
-            "video_title_img",
+             videos_df, "Cleaned_Title_Dominant_Topic", "Video Titles", "video_title_img"
         )
         video_description_img = self.visualize_topics(
-            videos_df,
-            "Cleaned_Description_Dominant_Topic",
-            "Dominant Topics in Video Descriptions",
-            "video_description_img",
+             videos_df, "Cleaned_Description_Dominant_Topic", "Video Descriptions", "video_description_img"
         )
         comment_img = self.visualize_topics(
-            comments_df,
-            "Comment_Dominant_Topic",
-            "Dominant Topics in Comments",
-            "comment_img",
+             comments_df, "Comment_Dominant_Topic", "Comments", "comment_img"
         )
 
-        # Generate summary text
+    # Generate summary
         summary, dominant_topics = self.generate_summary(videos_df, comments_df)
 
-        return (
-            summary,
-            video_title_img,
-            video_description_img,
-            comment_img,
-            dominant_topics,
-        )
+    # Log metrics to MLflow
+        mlflow.log_metric("video_title_topic", len(videos_df["Cleaned_Title_Dominant_Topic"]))
+        mlflow.log_metric("comment_topic", len(comments_df["Comment_Dominant_Topic"]))
+
+        return summary, video_title_img, video_description_img, comment_img, dominant_topics
+
