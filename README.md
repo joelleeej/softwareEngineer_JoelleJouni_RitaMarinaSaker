@@ -71,7 +71,91 @@ A Flask-based web application that leverages the YouTube Data API to analyze You
    - Collaboration recommendations.
 
 ---
-## Visualizations: 
+## 📊 Dataset Description
+
+### Data Collection
+The dataset is collected dynamically through the **YouTube Data API v3**. Users input a YouTube channel ID through the web interface, and the backend application fetches relevant channel data, including:
+- **Channel Details**: Metadata like title, description, subscriber count, total views, video count, and publication date.
+- **Top Videos**: A list of the top 10 most viewed videos, with details like video ID, title, description, view count, like count, and associated hashtags.
+- **Comments**: Up to 30 comments per video, filtered for English and cleaned of emojis or special characters.
+
+The data is saved as a structured JSON file for each channel, such as `channel_data_<channel_id>.json`.
+
+---
+
+### Dataset Structure
+
+#### Raw JSON File
+The JSON file contains:
+1. **Channel Metadata**:
+   - `title`: Channel name.
+   - `description`: A brief description of the channel.
+   - `subscriberCount`: Number of subscribers.
+   - `viewCount`: Total views across all videos.
+   - `videoCount`: Number of uploaded videos.
+   - `publishedAt`: Channel creation date.
+
+2. **Top Videos**:
+   - `title`: Video title.
+   - `videoId`: Unique ID of the video.
+   - `viewCount`, `likeCount`, `commentCount`: Engagement metrics.
+   - `description`: Text description of the video.
+   - `hashtags`: Extracted hashtags from the video description.
+
+3. **Video Comments**:
+   - `comments`: A list of the top-level comments for each video.
+   - `dominantLanguage`: The most commonly detected language in the comments.
+
+#### Example (Simplified JSON)
+```json
+{
+  "channel": {
+    "title": "Example Channel",
+    "description": "An amazing channel.",
+    "subscriberCount": "100000",
+    "viewCount": "5000000",
+    "videoCount": "100",
+    "publishedAt": "2015-01-01T00:00:00Z"
+  },
+  "topVideos": [
+    {
+      "title": "Sample Video 1",
+      "videoId": "abc123",
+      "viewCount": "100000",
+      "likeCount": "5000",
+      "commentCount": "300",
+      "description": "This is a great video! #awesome #cool",
+      "hashtags": ["#awesome", "#cool"]
+    }
+  ],
+  "videoComments": {
+    "abc123": {
+      "comments": ["Great video!", "Loved it!", "Amazing content!"],
+      "dominantLanguage": "en"
+     }
+   }
+}
+```
+## Data Cleaning and Transformation
+The raw JSON data is processed using the DataCleaner class:
+
+## Data Frames:
+
+1. Channel DataFrame: High-level channel stats.
+2. Videos DataFrame: Top video details (e.g., engagement metrics).
+3. Comments DataFrame: Comments paired with their corresponding video IDs.
+4. Natural Language Processing (NLP):
+
+5. Sentiment Analysis: Scores for video descriptions and comments using VADER.
+6. Topic Modeling: Key topics in video descriptions using Latent Dirichlet Allocation (LDA).
+7. Feature Engineering:
+
+8. Engagement Metrics: Total engagement (views, likes, comments) and like-to-view ratios.
+9. Sentiment Aggregation: Average comment sentiment per video and channel-level sentiment.
+
+---
+
+## Some Visualizations: 
 ### TF-IDF Keywords for Descriptions:
 ![TF-IDF Keywords Descriptions](static/tfidf_keywords_descriptions.png)
 
