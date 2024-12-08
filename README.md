@@ -290,6 +290,38 @@ Successfully checked all files with no type errors after installing required stu
 ## All quality checks passed successfully using Ruff, Flake8, Black, and Mypy.
 
 ---
+## MLflow Integration
+To enable experiment tracking, logging of metrics, and saving artifacts, MLflow has been integrated into the project. The following steps demonstrate the process:
+
+### MLflow Setup:
+1. Start the MLflow server to host the UI:
+```bash
+mlflow ui
+``` 
+The UI will be available at `http://127.0.0.1:5000`
+![MLflow ui](static/7.png)
+
+2. Ensure the following directories are used for tracking:
+
+    1. Artifacts: Includes generated images (e.g., `comment_img.png`, `video_description_img.png`, `video_title_img.png`).
+    2. Metrics: Key performance indicators such as:
+       - `comment_count`
+       - `comment_topic`
+       - `top_words`
+       - `video_count`
+       - `video_title_topic`
+![MLflow ui](static/10.png)
+
+### Usage
+1. Run your Flask app:
+```bash
+poetry run python app.py
+```
+2. Trigger analysis through the UI to log metrics and artifacts into MLflow.
+3. View the results in the MLflow UI.
+![MLflow](static/8.png)
+![MLflow](static/9.png)
+---
 
 ## Roadmap
 -  **Create Application**: Flask WebInterface, Ml/DL models, visualizations, dashboards.
