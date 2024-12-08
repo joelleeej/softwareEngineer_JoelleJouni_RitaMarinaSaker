@@ -3,7 +3,9 @@ import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
+import matplotlib
 import os
+matplotlib.use('Agg')
 
 class TFIDFProcessor:
     def __init__(self, static_dir='static/', max_features=20):

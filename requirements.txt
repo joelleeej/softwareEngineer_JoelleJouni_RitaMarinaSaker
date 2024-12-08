@@ -16,4 +16,5 @@ joblib
 requests
 plotly
 dash
-
+pytest 
+pytest-cov

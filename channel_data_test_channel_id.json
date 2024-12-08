@@ -1,0 +1,46 @@
+{
+    "channel": {
+        "title": "Test Channel",
+        "description": "A test channel",
+        "subscriberCount": "1000",
+        "viewCount": "10000",
+        "videoCount": "50",
+        "publishedAt": "2020-01-01"
+    },
+    "topVideos": [
+        {
+            "title": "Test Video",
+            "videoId": "video1",
+            "viewCount": "5000",
+            "likeCount": "300",
+            "commentCount": 0,
+            "description": "A test video",
+            "hashtags": []
+        },
+        {
+            "title": "Test Video",
+            "videoId": "video2",
+            "viewCount": "5000",
+            "likeCount": "300",
+            "commentCount": 0,
+            "description": "A test video",
+            "hashtags": []
+        }
+    ],
+    "videoComments": {
+        "video1": {
+            "comments": [
+                "Great video!",
+                "Very informative!"
+            ],
+            "dominantLanguage": "en"
+        },
+        "video2": {
+            "comments": [
+                "Great video!",
+                "Very informative!"
+            ],
+            "dominantLanguage": "en"
+        }
+    }
+}
