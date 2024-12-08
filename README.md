@@ -246,6 +246,50 @@ marketing_project/
 ```
 
 ---
+## Code Quality and Optimization:
+### 1. Ruff: Linting
+Ruff was used to ensure the code adheres to PEP8 standards and is free from linting issues.
+Command: 
+```bash
+poetry run ruff check.
+poetry run ruff check . --fix 
+```
+Result: 
+![After Fixing Ruff](static/3.png)
+
+### 2. Flake8: Linting and Formatting
+Flake8 was used for further linting, particularly to check line lengths and adherence to style guidelines.
+Command: 
+```bash
+poetry run flake8 src/ tests/ app.py
+```
+Result:
+Confirmed all files are compliant after adding a `.flake8` configuration file to adjust the line length limit and exclude certain directories.
+![After Fixing flake8](static/4.png)
+
+### 3. Black: Code Formatting
+Black was run to ensure the codebase is properly formatted and standardized.
+Command:
+```bash
+poetry run black .
+```
+Result:
+All files were formatted correctly with no changes required.
+![After Fixing Black](static/5.png)
+
+### 4. Mypy: Type Checking:
+Mypy was used to check type annotations and validate the correctness of all type hints in the code.
+Command:
+```bash
+poetry run mypy .
+```
+Result:
+Successfully checked all files with no type errors after installing required stubs (pandas-stubs, types-requests, etc.), adding ` __init__.py` files where necessary and `mypy.ini` in root directory.
+![After Fixing Mypy](static/6.png)
+
+## All quality checks passed successfully using Ruff, Flake8, Black, and Mypy.
+
+---
 
 ## Roadmap
 -  **Create Application**: Flask WebInterface, Ml/DL models, visualizations, dashboards.
