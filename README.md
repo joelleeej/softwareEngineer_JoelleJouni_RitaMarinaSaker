@@ -58,6 +58,31 @@ A Flask-based web application that leverages the YouTube Data API to analyze You
    ```bash
    python app.py
    ```
+   ---
+
+## Using Poetry:Project Setup and Environment Managemen:
+### 1. Environment Setup:
+ 1. Ensure you have Poetry installed 
+ 2. Remove any existing virtual environments to avoid conflicts using:
+ ```bash
+ poetry env remove python
+ ```
+ ### 2. Initializing the Project:
+ 1. Run the following commands to install dependencies and create a virtual environment:
+ ```bash
+ poetry install
+ ```
+ 2. Activate the Poetry environment:
+ ```bash
+ poetry shell
+ ```
+ 3. Adding Dependencies:
+ ```bash
+ Flask, google-auth, google-auth-oauthlib, google-api-python-client, pandas, numpy, scikit-learn, nltk, matplotlib, seaborn, torch, transformers, wordcloud, langdetect, joblib, requests, plotly, dash, pytest, pytest-cov, mlflow, omegaconf, pydantic, ruff, mypy, loguru, PyInvoke, pdoc, docker-compose, prometheus-client, flake8, black, PyYAML, fastapi, httpx, pytest-mock, pytest-asyncio, uvicorn, gunicorn, notebook, ipywidgets
+```
+### 3. Notes
+1. Important: This application uses Flask and Dash for its web interface. To ensure compatibility, ensure Flask is below version 3.1.0 when working with Dash.
+2. For Docker-Compose, ensure PyYAML is below version 6.
 
 ---
 
