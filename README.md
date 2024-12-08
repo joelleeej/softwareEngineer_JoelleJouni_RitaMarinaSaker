@@ -86,12 +86,14 @@ A Flask-based web application that leverages the YouTube Data API to analyze You
 ### Running Tests:
 To run unit tests for the implemented features:
 
-  ```pytest tests/
+  ```bash
+  pytest tests/
   ```
 ### Coverage Report:
 Generate and view code coverage:
 
-  ```pytest --cov=src --cov-report=html
+  ```bash
+  pytest --cov=src --cov-report=html
   ```
 Open ```htmlcov/index.html``` for detailed insights.
 
