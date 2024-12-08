@@ -310,6 +310,7 @@ The UI will be available at `http://127.0.0.1:5000`
        - `top_words`
        - `video_count`
        - `video_title_topic`
+       
 ![MLflow ui](static/10.png)
 
 ### Usage
@@ -319,9 +320,38 @@ poetry run python app.py
 ```
 2. Trigger analysis through the UI to log metrics and artifacts into MLflow.
 3. View the results in the MLflow UI.
+
 ![MLflow](static/8.png)
 ![MLflow](static/9.png)
 ---
+
+## CI/CD Pipeline
+This project uses GitHub Actions to automate linting, testing, and deployment as part of a CI/CD pipeline.
+
+### Workflow Structure
+The CI/CD pipeline is triggered on:
+
+- Push events to the main branch.
+- Pull requests targeting the main branch.
+
+### Pipeline Jobs
+
+1. Lint:
+
+   - Uses `ruff`, `flake8`, and `black` to ensure code quality and consistency.
+   - Verifies that all Python files meet the defined linting and formatting standards.
+
+2. Test:
+
+   - Runs unit tests using pytest.
+   - Generates test coverage reports using pytest-cov.
+
+### Pipeline Execution Results
+
+1. Successful builds and linting will display a green checkmark on the repository’s Actions tab.
+2. Failing tests or linting will show red crosses, allowing developers to address issues promptly.
+
+![CI/CD](static/11.png)
 
 ## Roadmap
 -  **Create Application**: Flask WebInterface, Ml/DL models, visualizations, dashboards.
