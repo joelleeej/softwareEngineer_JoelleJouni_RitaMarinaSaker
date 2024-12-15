@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/user/Desktop/marketing_project/mlruns/531165767181131128/29b91fa1163548ee9521cf5ebef94c4e/artifacts
+end_time: 1734290142211
+entry_point_name: ''
+experiment_id: '531165767181131128'
+lifecycle_stage: active
+run_id: 29b91fa1163548ee9521cf5ebef94c4e
+run_name: awesome-mare-871
+run_uuid: 29b91fa1163548ee9521cf5ebef94c4e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1734290096567
+status: 3
+tags: []
+user_id: user

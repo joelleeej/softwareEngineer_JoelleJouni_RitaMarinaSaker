@@ -15,7 +15,7 @@ services:
     image: prom/prometheus:latest
     container_name: prometheus
     volumes:
-      - ./configs/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./configs/prometheus_docker.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
 

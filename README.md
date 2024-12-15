@@ -254,8 +254,6 @@ Command:
 poetry run ruff check.
 poetry run ruff check . --fix 
 ```
-Result: 
-![After Fixing Ruff](static/3.png)
 
 ### 2. Flake8: Linting and Formatting
 Flake8 was used for further linting, particularly to check line lengths and adherence to style guidelines.
@@ -265,7 +263,7 @@ poetry run flake8 src/ tests/ app.py
 ```
 Result:
 Confirmed all files are compliant after adding a `.flake8` configuration file to adjust the line length limit and exclude certain directories.
-![After Fixing flake8](static/4.png)
+
 
 ### 3. Black: Code Formatting
 Black was run to ensure the codebase is properly formatted and standardized.
@@ -275,7 +273,6 @@ poetry run black .
 ```
 Result:
 All files were formatted correctly with no changes required.
-![After Fixing Black](static/5.png)
 
 ### 4. Mypy: Type Checking:
 Mypy was used to check type annotations and validate the correctness of all type hints in the code.
@@ -285,7 +282,6 @@ poetry run mypy .
 ```
 Result:
 Successfully checked all files with no type errors after installing required stubs (pandas-stubs, types-requests, etc.), adding ` __init__.py` files where necessary and `mypy.ini` in root directory.
-![After Fixing Mypy](static/6.png)
 
 ## All quality checks passed successfully using Ruff, Flake8, Black, and Mypy.
 
@@ -321,8 +317,6 @@ poetry run python app.py
 2. Trigger analysis through the UI to log metrics and artifacts into MLflow.
 3. View the results in the MLflow UI.
 
-![MLflow](static/8.png)
-![MLflow](static/9.png)
 ---
 
 ## CI/CD Pipeline
@@ -346,12 +340,66 @@ The CI/CD pipeline is triggered on:
    - Runs unit tests using pytest.
    - Generates test coverage reports using pytest-cov.
 
-### Pipeline Execution Results
+## Running Prometheus Outside Docker
 
-1. Successful builds and linting will display a green checkmark on the repository’s Actions tab.
-2. Failing tests or linting will show red crosses, allowing developers to address issues promptly.
+To monitor the Flask application metrics using Prometheus outside Docker, follow these steps:
 
-![CI/CD](static/11.png)
+1. ### Flask Application
+Ensure your Flask app is running on port 5000 and exposes metrics at /metrics:
+```bash
+poetry run python app.py
+```
+Verify metrics are accessible by visiting:
+```bash
+https://127.0.0.1:5000/metrics
+``` 
+2. ### Prometheus Configuration
+Create a prometheus_local.yml file in your project directory with the following content:
+
+```bash
+scrape_configs:
+  - job_name: 'flask_app'
+    static_configs:
+      - targets: ['127.0.0.1:5000']
+```
+
+This configuration tells Prometheus to scrape metrics from the Flask app running at `127.0.0.1:5000`.
+
+3. ### Running Prometheus:
+
+Download Prometheus from the official Prometheus website.
+
+Extract the downloaded archive.
+
+Open a terminal, navigate to the Prometheus folder, and run the following command:
+
+```bash
+prometheus --config.file=prometheus_local.yml
+```
+This starts Prometheus and loads the prometheus_local.yml configuration.
+#### Access the Prometheus UI by navigating to:
+
+```bash
+http://127.0.0.1:9090
+``` 
+4. ### Verifying Metrics
+In the Prometheus UI:
+Go to `Status` > `Targets` to confirm Prometheus is scraping the Flask app at `127.0.0.1:5000`.
+Test the following PromQL expression to see metrics:
+
+```bash
+flask_http_request_total
+```
+
+5. ### Troubleshooting
+If metrics are not available:
+Ensure the Flask app is running and `/metrics` is accessible.
+Confirm that `prometheus_local.yml` points to the correct `127.0.0.1:5000` endpoint.
+Verify Prometheus is running and the configuration file is loaded correctly.
+
+---
+
+
 
 ## Roadmap
 -  **Create Application**: Flask WebInterface, Ml/DL models, visualizations, dashboards.
