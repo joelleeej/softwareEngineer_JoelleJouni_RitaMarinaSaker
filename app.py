@@ -18,11 +18,17 @@ from src.nlp.bert import BERTProcessor
 from src.model.topic_modeling import TopicModelingProcessor
 from src.api.youtube_api_2 import YouTubeAPIProcessor
 import mlflow
-import mlflow.sklearn  # Import if you're logging sklearn models
+import mlflow.sklearn
+from prometheus_client import Counter, Gauge, generate_latest
+from prometheus_flask_exporter import PrometheusMetrics
+
 
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
+
+metrics = PrometheusMetrics(app)
+metrics.info('app_info', 'YouTube Channel Analysis Application', version='1.0.0')
 
 CLIENT_SECRETS_FILE = os.getenv(
     "CLIENT_SECRETS_FILE",
@@ -196,12 +202,29 @@ def credentials_to_dict(credentials):
         "client_secret": credentials.client_secret,
         "scopes": credentials.scopes,
     }
+# Metrics definitions
+request_counter = Counter('request_count', 'Total number of requests made to the application')
+active_requests = Gauge('active_requests', 'Number of active requests currently being processed')
+
+@app.before_request
+def before_request():
+    request_counter.inc()
+    active_requests.inc()
+
+@app.after_request
+def after_request(response):
+    active_requests.dec()
+    return response
+
+@app.route('/metrics')
+def metrics():
+    return generate_latest(), 200, {'Content-Type': 'text/plain; charset=utf-8'}
 
 
 if __name__ == "__main__":
     app.run(
         debug=True,
-        host="127.0.0.1",
+        host="0.0.0.0",
         port=5000,
         ssl_context=("certs/certificate.crt", "certs/private.key"),
     )

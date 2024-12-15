@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/user/Desktop/marketing_project/mlruns/531165767181131128/53db8f574d90436aa96f85d82c3323a8/artifacts
+end_time: 1734279343453
+entry_point_name: ''
+experiment_id: '531165767181131128'
+lifecycle_stage: active
+run_id: 53db8f574d90436aa96f85d82c3323a8
+run_name: casual-fowl-202
+run_uuid: 53db8f574d90436aa96f85d82c3323a8
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1734279261715
+status: 3
+tags: []
+user_id: user

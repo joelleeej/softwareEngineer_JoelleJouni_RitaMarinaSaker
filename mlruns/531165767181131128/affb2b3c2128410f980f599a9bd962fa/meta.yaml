@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/user/Desktop/marketing_project/mlruns/531165767181131128/affb2b3c2128410f980f599a9bd962fa/artifacts
+end_time: 1734271405910
+entry_point_name: ''
+experiment_id: '531165767181131128'
+lifecycle_stage: active
+run_id: affb2b3c2128410f980f599a9bd962fa
+run_name: flawless-turtle-724
+run_uuid: affb2b3c2128410f980f599a9bd962fa
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1734271050238
+status: 4
+tags: []
+user_id: root

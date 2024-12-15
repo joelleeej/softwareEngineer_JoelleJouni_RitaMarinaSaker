@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/user/Desktop/marketing_project/mlruns/531165767181131128/59e1c18d21d74a2182e8dae37596f178/artifacts
+end_time: 1733687181125
+entry_point_name: ''
+experiment_id: '531165767181131128'
+lifecycle_stage: active
+run_id: 59e1c18d21d74a2182e8dae37596f178
+run_name: abrasive-sponge-956
+run_uuid: 59e1c18d21d74a2182e8dae37596f178
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1733687155242
+status: 3
+tags: []
+user_id: user

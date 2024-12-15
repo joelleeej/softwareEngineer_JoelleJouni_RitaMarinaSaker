@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/user/Desktop/marketing_project/mlruns/531165767181131128/a8bd052d9fc548d2b2231e71921c1d36/artifacts
+end_time: 1734264621409
+entry_point_name: ''
+experiment_id: '531165767181131128'
+lifecycle_stage: active
+run_id: a8bd052d9fc548d2b2231e71921c1d36
+run_name: valuable-zebra-995
+run_uuid: a8bd052d9fc548d2b2231e71921c1d36
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1734264571971
+status: 3
+tags: []
+user_id: user

@@ -3372,6 +3372,21 @@ files = [
 twisted = ["twisted"]
 
 [[package]]
+name = "prometheus-flask-exporter"
+version = "0.23.1"
+description = "Prometheus metrics exporter for Flask"
+optional = false
+python-versions = "*"
+files = [
+    {file = "prometheus_flask_exporter-0.23.1-py3-none-any.whl", hash = "sha256:ab49b2c40b57cd35cd51e91e59b3c306b3754477095c4f3cf679034c5122398c"},
+    {file = "prometheus_flask_exporter-0.23.1.tar.gz", hash = "sha256:587c770a1061e93d72c5cbcdefbd7b633fb764e39dffd7dd16932c9124559244"},
+]
+
+[package.dependencies]
+flask = "*"
+prometheus-client = "*"
+
+[[package]]
 name = "prompt-toolkit"
 version = "3.0.48"
 description = "Library for building powerful interactive command lines in Python"
@@ -5651,4 +5666,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "723f556fc3b46c25fa9a05ff92332b75a42cde6b876ca3979c084f0daa46122e"
+content-hash = "53b7e9a30807f2470998da6c6ed44d22810ce3bcacdea388dfcf1f853ff2a328"

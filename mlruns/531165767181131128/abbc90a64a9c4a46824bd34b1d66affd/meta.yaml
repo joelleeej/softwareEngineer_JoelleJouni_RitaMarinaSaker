@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/user/Desktop/marketing_project/mlruns/531165767181131128/abbc90a64a9c4a46824bd34b1d66affd/artifacts
+end_time: 1733687965069
+entry_point_name: ''
+experiment_id: '531165767181131128'
+lifecycle_stage: active
+run_id: abbc90a64a9c4a46824bd34b1d66affd
+run_name: charming-fowl-849
+run_uuid: abbc90a64a9c4a46824bd34b1d66affd
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1733687938677
+status: 3
+tags: []
+user_id: user

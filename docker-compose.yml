@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  flask_app:
+    image: my-flask-app
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+      - /app/.venv
+    environment:
+      - FLASK_ENV=development
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./configs/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+
