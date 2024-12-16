@@ -4,30 +4,33 @@ on:
   push:
     branches:
       - main
+      - cicd
   pull_request:
     branches:
       - main
+      - cicd
 
 jobs:
   lint:
-    runs-on: ubuntu-latest+
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: 3.11
-      - name: Install dependencies
+      - name: Install dependencies for linting
         run: |
           python -m pip install --upgrade pip
           pip install poetry
-          poetry install
+          poetry install --only lint
       - name: Lint with Ruff
         run: poetry run ruff check .
       - name: Check with Flake8
         run: poetry run flake8 src/ tests/
       - name: Run Black
         run: poetry run black --check .
+
   test:
     runs-on: ubuntu-latest
     steps:
@@ -36,12 +39,19 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: 3.11
-      - name: Install dependencies
+      - name: Install dependencies for testing
         run: |
+          python -m pip install --upgrade pip
           pip install poetry
-          poetry install
-      - name: Run Tests
-        run: poetry run pytest --cov=src tests/
+          poetry install --only dev
+      - name: Run Tests with Coverage
+        run: poetry run pytest --cov=src --cov-report=xml tests/
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage.xml
+
 
 
 
