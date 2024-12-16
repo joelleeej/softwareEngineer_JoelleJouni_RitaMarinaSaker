@@ -319,26 +319,50 @@ poetry run python app.py
 
 ---
 
-## CI/CD Pipeline
-This project uses GitHub Actions to automate linting, testing, and deployment as part of a CI/CD pipeline.
+## 🛠️ CI/CD Pipeline
+This project uses GitHub Actions to automate code quality checks and tests. The CI/CD pipeline includes:
 
-### Workflow Structure
-The CI/CD pipeline is triggered on:
+## Linting and Formatting
+- Tools: `Ruff`, `Flake8`, `Black`
+- Purpose: Ensures code style consistency and cleanliness.
+- Execution:
+    1. Ruff: Linting for Python code.
+    2. Flake8: Additional code style checks.
+    3. Black: Enforces code formatting (PEP8 compliant).
+## Testing
+- Tool: Pytest with Coverage
+- Purpose: Runs unit tests and generates test coverage reports.
+- Execution:
+    1. Runs all tests in the `tests/` directory.
+    2. Generates a `coverage.xml` report for code coverage.
 
-- Push events to the main branch.
-- Pull requests targeting the main branch.
+## Workflow Summary
 
-### Pipeline Jobs
+| Workflow         | Trigger                          | Jobs                   | Status  |
+|------------------|----------------------------------|------------------------|---------|
+| **CI/CD Pipeline** | Push to `main` or `cicd` branch | Linting, Testing       | ✅ Passed/❌ Failed |
+| **Python Tests**   | Push to `main` or `cicd` branch | Run Tests with Coverage | ✅ Passed/❌ Failed |
 
-1. Lint:
 
-   - Uses `ruff`, `flake8`, and `black` to ensure code quality and consistency.
-   - Verifies that all Python files meet the defined linting and formatting standards.
+## How to Run Locally
+To replicate the CI/CD steps locally:
 
-2. Test:
+1. Install dependencies:
+```bash
+poetry install --only dev
+```
+2. Run linting:
+```bash
+poetry run ruff check .
+poetry run flake8 src/ tests/
+poetry run black --check .
+```
+3. Run tests with coverage:
+```bash
+poetry run pytest --cov=src --cov-report=xml
+```
 
-   - Runs unit tests using pytest.
-   - Generates test coverage reports using pytest-cov.
+---
 
 ## Running Prometheus Outside Docker
 
