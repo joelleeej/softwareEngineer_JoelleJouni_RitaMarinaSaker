@@ -180,17 +180,6 @@ The raw JSON data is processed using the DataCleaner class:
 
 ---
 
-## Some Visualizations: 
-### TF-IDF Keywords for Descriptions:
-![TF-IDF Keywords Descriptions](static/tfidf_keywords_descriptions.png)
-
-### Engagement Statistics:
-![Engagement Statistics](static/engagement_statistics.png)
-
-### Sentiment Analysis on Comments
-![Comments Sentiment Distribution](static/comments_sentiment_distribution.png)
-
----
 ## Testing
 ### Running Tests:
 To run unit tests for the implemented features:
@@ -205,12 +194,6 @@ Generate and view code coverage:
   pytest --cov=src --cov-report=html
   ```
 Open ```htmlcov/index.html``` for detailed insights.
-
-### Example 1: Running Tests
-![Visiting browser](static/1.png)
-
-### Example 2: Running Tests
-![Visiting browser](static/2.png)
 
 ---
 
@@ -295,7 +278,6 @@ To enable experiment tracking, logging of metrics, and saving artifacts, MLflow 
 mlflow ui
 ``` 
 The UI will be available at `http://127.0.0.1:5000`
-![MLflow ui](static/7.png)
 
 2. Ensure the following directories are used for tracking:
 
@@ -307,7 +289,6 @@ The UI will be available at `http://127.0.0.1:5000`
        - `video_count`
        - `video_title_topic`
        
-![MLflow ui](static/10.png)
 
 ### Usage
 1. Run your Flask app:
