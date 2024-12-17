@@ -180,7 +180,8 @@ The raw JSON data is processed using the DataCleaner class:
 
 ---
 
-## Testing
+# Testing
+
 ### Running Tests:
 To run unit tests for the implemented features:
 
@@ -229,7 +230,8 @@ marketing_project/
 ```
 
 ---
-## Code Quality and Optimization:
+# Code Quality and Optimization:
+
 ### 1. Ruff: Linting
 Ruff was used to ensure the code adheres to PEP8 standards and is free from linting issues.
 Command: 
@@ -297,6 +299,77 @@ poetry run python app.py
 ```
 2. Trigger analysis through the UI to log metrics and artifacts into MLflow.
 3. View the results in the MLflow UI.
+
+---
+
+# Docker and Prometheus Setup
+
+1. ## Building and Running the Flask Application with Docker
+
+To containerize and run the Flask application, follow these steps:
+- Ensure you have the following files in your /app directory: Dockerfile , docker-compose.yml, .dockerignore
+
+- Build the Docker Image:
+
+```bash
+docker build -t my-flask-app .
+```
+- Run the Application with Docker Compose: Use the provided docker-compose.yml file to start the Flask app and Prometheus services together:
+    
+```bash
+docker-compose up
+```
+
+
+## Verify the Application:
+
+1. ### Flask App:
+
+The Flask application will be accessible at:
+```bash
+http://127.0.0.1:5000
+```
+
+Prometheus will be accessible at:
+```bash
+http://127.0.0.1:9090
+```
+
+2. ### Prometheus Configuration
+`Prometheus` is configured to scrape metrics from the Flask app running on port 5000. The Prometheus configuration file (prometheus_docker.yml) defines the scraping job.
+
+Example Prometheus Configuration:
+
+```yaml
+scrape_configs:
+  - job_name: "flask_app"
+    static_configs:
+      - targets: ["flask_app:5000"]
+```
+This tells Prometheus to scrape the `/metrics` endpoint exposed by the Flask application.
+
+3. ### Accessing Metrics
+The Flask app exposes metrics for Prometheus at:
+
+```bash
+http://127.0.0.1:5000/metrics
+```
+To view the scraped metrics in `Prometheus`:
+
+Open the Prometheus UI at `http://127.0.0.1:9090`.
+Use queries like:
+```promql
+flask_http_request_total
+```
+This will display the total number of HTTP requests handled by the Flask app.
+4. ### Stopping the Services
+To stop the Docker containers:
+
+```bash
+docker-compose down
+```
+5. ### Notes
+The Flask app runs in development mode for testing purposes. For production, use a production-ready WSGI server like Gunicorn.
 
 ---
 
