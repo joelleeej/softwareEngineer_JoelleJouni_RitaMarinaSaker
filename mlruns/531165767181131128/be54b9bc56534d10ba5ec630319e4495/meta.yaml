@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/user/Desktop/marketing_project/mlruns/531165767181131128/be54b9bc56534d10ba5ec630319e4495/artifacts
+end_time: 1734397339719
+entry_point_name: ''
+experiment_id: '531165767181131128'
+lifecycle_stage: active
+run_id: be54b9bc56534d10ba5ec630319e4495
+run_name: intrigued-goose-94
+run_uuid: be54b9bc56534d10ba5ec630319e4495
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1734397028953
+status: 4
+tags: []
+user_id: root

@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/user/Desktop/marketing_project/mlruns/531165767181131128/5bb8d1374cf046ffbcb2fa017ee76cdd/artifacts
+end_time: 1734397339457
+entry_point_name: ''
+experiment_id: '531165767181131128'
+lifecycle_stage: active
+run_id: 5bb8d1374cf046ffbcb2fa017ee76cdd
+run_name: agreeable-swan-185
+run_uuid: 5bb8d1374cf046ffbcb2fa017ee76cdd
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1734397154071
+status: 4
+tags: []
+user_id: root

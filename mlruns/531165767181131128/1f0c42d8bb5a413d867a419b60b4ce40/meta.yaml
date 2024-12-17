@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/user/Desktop/marketing_project/mlruns/531165767181131128/1f0c42d8bb5a413d867a419b60b4ce40/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '531165767181131128'
+lifecycle_stage: active
+run_id: 1f0c42d8bb5a413d867a419b60b4ce40
+run_name: nosy-stoat-359
+run_uuid: 1f0c42d8bb5a413d867a419b60b4ce40
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1734389407891
+status: 1
+tags: []
+user_id: root

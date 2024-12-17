@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/user/Desktop/marketing_project/mlruns/531165767181131128/5317cb00e88e445cbc88d9b4091c427c/artifacts
+end_time: 1734435898327
+entry_point_name: ''
+experiment_id: '531165767181131128'
+lifecycle_stage: active
+run_id: 5317cb00e88e445cbc88d9b4091c427c
+run_name: abrasive-kite-987
+run_uuid: 5317cb00e88e445cbc88d9b4091c427c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1734435853189
+status: 3
+tags: []
+user_id: root
