@@ -1,0 +1,5 @@
+htmlcov/
+channel_data_*.json
+note
+src/Shortcut*
+prometheus-3.0.1.windows-amd64/
