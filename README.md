@@ -302,7 +302,7 @@ poetry run python app.py
 
 ---
 
-# Docker and Prometheus Setup
+# Docker, Prometheus and Grafana Setup
 
 1. ## Building and Running the Flask Application with Docker
 
@@ -371,7 +371,67 @@ docker-compose down
 5. ### Notes
 The Flask app runs in development mode for testing purposes. For production, use a production-ready WSGI server like Gunicorn.
 
----
+# Grafana Setup
+
+## Grafana provides a visualization dashboard for the Flask app metrics.
+1. ## Run Grafana: Add Grafana as a service in `docker-compose.yml`:
+
+```yaml
+grafana:
+  image: grafana/grafana:latest
+  container_name: grafana
+  ports:
+    - "3000:3000"
+  volumes:
+    - grafana_data:/var/lib/grafana
+  environment:
+    - GF_SECURITY_ADMIN_USER=admin
+    - GF_SECURITY_ADMIN_PASSWORD=admin
+  ```
+2. ## Add Prometheus Datasource:
+
+- Go to `http://localhost:3000` and log in with:
+    - Username: admin
+    - Password: admin
+- Navigate to `Connections` > `Data Sources`.
+- Add Prometheus with the URL: `http://prometheus:9090`.
+
+3. ## Import a Dashboard:
+
+- Go to `Dashboards` > `Import`.
+- Use a pre-built Dashboard ID (e.g., 1860 for Prometheus Overview).
+- Assign the Prometheus datasource.
+
+4. ## Visualize Metrics:
+
+Monitor metrics like:
+
+  1. HTTP Requests (flask_http_request_total)
+  2. Request Duration (flask_http_request_duration_seconds_bucket)
+  3. Error Rates and Latency.
+
+## Verifying the Setup
+1. Access the Flask app at `https://127.0.0.1:5000/analyze`.
+2. Prometheus UI at `http://localhost:9090`.
+3. Grafana UI at `http://localhost:3000`.
+Check the following PromQL queries in Grafana:
+
+```promql
+flask_http_request_total
+rate(flask_http_request_duration_seconds_count[1m])
+histogram_quantile(0.95, rate(flask_http_request_duration_seconds_bucket[5m]))
+```
+
+## Troubleshooting
+If Prometheus shows DOWN for the Flask app:
+
+- Ensure Flask metrics are exposed at `https://host.docker.internal:5000/metrics`.
+- Verify the prometheus.yml configuration.
+
+If Grafana shows No Data:
+
+- Verify the Prometheus datasource in Grafana.
+- Check the time range in Grafana (set to "Last 5 minutes").
 
 ## 🛠️ CI/CD Pipeline
 This project uses GitHub Actions to automate code quality checks and tests. The CI/CD pipeline includes:
